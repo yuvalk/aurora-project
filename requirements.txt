@@ -1,0 +1,13 @@
+# Aurora Borealis Toolkit Requirements
+# No external dependencies required for basic functionality!
+
+# Optional dependencies for enhanced features:
+# requests>=2.25.0  # For future real-time data integration
+# matplotlib>=3.5.0  # For advanced graphing (future feature)
+# numpy>=1.20.0  # For statistical analysis (future feature)
+# colorama>=0.4.4  # For cross-platform color support
+
+# Development dependencies:
+# pytest>=6.0.0  # For testing
+# black>=21.0.0  # For code formatting
+# flake8>=3.8.0  # For linting
