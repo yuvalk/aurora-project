@@ -4,6 +4,18 @@ A comprehensive collection of tools for aurora enthusiasts, featuring prediction
 
 ## 🔮 Features
 
+### 🌐 Interactive Web Dashboard (`web/index.html`)
+- **Real-time aurora tracking interface** with beautiful aurora-themed design
+- **Live KP index display** with dynamic updates and forecasting
+- **Interactive 7-day forecast** with color-coded activity levels
+- **Viewing probability calculator** for 8 major northern locations
+- **Aurora color predictions** with scientific explanations
+- **Adaptive photography tips** that expand based on activity levels
+- **Professional responsive design** that works on all devices
+- **Settings panel** for customization and preferences
+- **Export functionality** for data reports and analysis
+- **Auto-refresh capability** with configurable intervals
+
 ### 🎯 Aurora Tracker (`aurora_tracker.py`)
 - **Real-time KP index simulation** with 7-day forecasts
 - **Location-based viewing probabilities** for 8 major northern cities
@@ -38,10 +50,21 @@ A comprehensive collection of tools for aurora enthusiasts, featuring prediction
 - No external dependencies required!
 
 ### Quick Start
+
+#### 🌐 Web Dashboard (Recommended)
 ```bash
 # Clone or download the project
 cd aurora-project
 
+# Start local web server
+cd web && python3 -m http.server 8000
+
+# Open browser and navigate to:
+# http://localhost:8000
+```
+
+#### 🖥️ Command Line Tools
+```bash
 # Run the comprehensive tracker
 python3 src/aurora_tracker.py
 
@@ -106,17 +129,33 @@ This project uses simulated data for educational and entertainment purposes. For
 - **SpaceWeatherLive**
 - **Aurora Forecast apps**
 
+## 🖼️ Screenshots
+
+### 🌐 Web Dashboard
+- **Real-time Aurora Tracking**: Beautiful, responsive interface with live KP index display
+- **Interactive Forecast**: 7-day predictions with color-coded activity levels
+- **Location Probabilities**: Viewing chances for 8 major northern cities
+- **Aurora Colors**: Scientific explanations with visual color swatches
+- **Photography Tips**: Adaptive advice based on current activity levels
+- **Professional Design**: Aurora-themed dark mode with gradient backgrounds
+
+### 🖥️ Command Line Tools
+- **Comprehensive Reports**: Detailed text-based aurora information
+- **ASCII Art**: Beautiful terminal-based aurora visualizations
+- **Data Graphs**: Text-based charts and statistical analysis
+- **Educational Content**: Scientific facts and viewing guidance
+
 ## 🎯 Future Enhancements
 
 Planned features for future versions:
 - [ ] Real-time data integration with NOAA APIs
 - [ ] Interactive maps showing aurora visibility zones
 - [ ] Historical data analysis and patterns
-- [ ] Mobile-friendly web interface
 - [ ] Social sharing features for aurora photos
 - [ ] Machine learning prediction models
 - [ ] Integration with weather data for cloud coverage
 - [ ] Push notifications for high activity periods
+- [ ] Mobile app companion
 
 ## 🤝 Contributing
 

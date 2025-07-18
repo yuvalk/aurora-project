@@ -5,6 +5,38 @@ All notable changes to the Aurora Borealis Toolkit will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-07-18
+
+### Added
+- **Interactive Web Dashboard** (`web/index.html`)
+  - Real-time aurora tracking with beautiful aurora-themed design
+  - Live KP index display with dynamic updates and smooth animations
+  - Interactive 7-day forecast with color-coded activity levels
+  - Viewing probability calculator for 8 major northern locations
+  - Aurora color predictions with scientific explanations and visual swatches
+  - Adaptive photography tips that expand based on current activity levels
+  - Professional responsive design optimized for all devices
+  - Settings panel for user customization (units, themes, refresh intervals)
+  - Export functionality for data reports and analysis
+  - Auto-refresh capability with configurable intervals
+  - Modern CSS Grid and Flexbox layouts
+  - Smooth hover effects and professional animations
+  - Cross-browser compatibility and accessibility features
+
+### Enhanced
+- **README Documentation** with comprehensive web dashboard instructions
+- **Quick Start Guide** now features web dashboard as recommended option
+- **Screenshots Section** documenting both web and command-line interfaces
+- **Future Enhancements** updated with mobile app and advanced features
+
+### Technical Details
+- **Zero Dependencies**: Pure HTML5, CSS3, and JavaScript implementation
+- **Responsive Design**: Mobile-first approach with breakpoints for all devices
+- **Aurora Physics**: Realistic magnetic latitude calculations and KP index simulation
+- **Professional UI**: Aurora-inspired color palette with gradient backgrounds
+- **Local Storage**: Persistent user preferences and settings
+- **Modular Architecture**: Clean separation of concerns for maintainability
+
 ## [1.0.0] - 2025-07-18
 
 ### Added
