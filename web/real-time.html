@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Aurora Dashboard - Live NOAA Data</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Additional styles for real-time features */
+        .data-source-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--aurora-green);
+            color: var(--aurora-green);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+        
+        .real-time-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--aurora-green), var(--aurora-blue));
+            color: var(--primary-bg);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 8px;
+        }
+        
+        .solar-wind-info {
+            margin-top: 16px;
+            padding: 16px;
+            background: rgba(0, 136, 255, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--aurora-blue);
+        }
+        
+        .solar-wind-info h3 {
+            margin: 0 0 12px 0;
+            color: var(--aurora-blue);
+            font-size: 1.1rem;
+        }
+        
+        .solar-wind-info div {
+            margin: 4px 0;
+            color: var(--text-secondary);
+        }
+        
+        .alerts-info {
+            margin-top: 16px;
+            padding: 16px;
+            background: rgba(255, 0, 136, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--aurora-pink);
+        }
+        
+        .alerts-info h3 {
+            margin: 0 0 12px 0;
+            color: var(--aurora-pink);
+            font-size: 1.1rem;
+        }
+        
+        .alert-item {
+            margin: 8px 0;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+        
+        .alert-severity {
+            display: inline-block;
+            background: var(--aurora-pink);
+            color: var(--primary-bg);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        
+        .alert-message {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .connection-status {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            z-index: 1000;
+        }
+        
+        .connection-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--aurora-green);
+            animation: pulse 2s infinite;
+        }
+        
+        .connection-dot.offline {
+            background: #ff4444;
+            animation: none;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .enhanced-header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 30%, #0f3460 60%, #1a1a2e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .enhanced-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(0, 136, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 20%, rgba(136, 0, 255, 0.1) 0%, transparent 50%);
+            animation: shimmer 8s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header enhanced-header">
+            <div class="aurora-animation">
+                <div class="aurora-wave wave1"></div>
+                <div class="aurora-wave wave2"></div>
+                <div class="aurora-wave wave3"></div>
+            </div>
+            <h1>🌌 Real-time Aurora Dashboard</h1>
+            <p class="subtitle">
+                Live NOAA Space Weather Data
+                <span class="real-time-badge">Real-time</span>
+            </p>
+        </header>
+
+        <main class="main-content">
+            <div class="grid">
+                <!-- Current Conditions -->
+                <div class="card current-conditions">
+                    <h2>🔮 Current Conditions</h2>
+                    <div class="kp-display">
+                        <div class="kp-value" id="currentKp">--</div>
+                        <div class="kp-label">KP Index</div>
+                    </div>
+                    <div class="activity-level" id="activityLevel">Connecting to NOAA...</div>
+                    <div class="visibility-zone" id="visibilityZone">Fetching data...</div>
+                    <div class="last-updated" id="lastUpdated">Initializing...</div>
+                </div>
+
+                <!-- 7-Day Forecast -->
+                <div class="card forecast">
+                    <h2>📊 Live Forecast</h2>
+                    <div class="forecast-list" id="forecastList">
+                        <div class="loading-message">Loading NOAA forecast data...</div>
+                    </div>
+                </div>
+
+                <!-- Viewing Probabilities -->
+                <div class="card probabilities">
+                    <h2>📍 Viewing Probabilities</h2>
+                    <div class="location-list" id="locationList">
+                        <div class="loading-message">Calculating probabilities...</div>
+                    </div>
+                </div>
+
+                <!-- Expected Colors -->
+                <div class="card colors">
+                    <h2>🎨 Expected Colors</h2>
+                    <div class="color-list" id="colorList">
+                        <div class="loading-message">Analyzing conditions...</div>
+                    </div>
+                </div>
+
+                <!-- Photography Tips -->
+                <div class="card tips">
+                    <h2>📸 Photography Tips</h2>
+                    <div class="tips-list" id="tipsList">
+                        <div class="loading-message">Generating recommendations...</div>
+                    </div>
+                </div>
+
+                <!-- Aurora Fact -->
+                <div class="card fact">
+                    <h2>💡 Space Weather Info</h2>
+                    <div class="fact-content" id="factContent">
+                        <div class="loading-message">Loading space weather data...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Controls -->
+            <div class="controls">
+                <button class="btn btn-primary" id="refreshBtn">🔄 Refresh Live Data</button>
+                <button class="btn btn-secondary" id="exportBtn">📊 Export Report</button>
+                <button class="btn btn-secondary" id="settingsBtn">⚙️ Settings</button>
+                <button class="btn btn-secondary" onclick="window.open('https://www.swpc.noaa.gov/', '_blank')">
+                    🌐 NOAA Space Weather
+                </button>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Built with ❤️ for aurora enthusiasts | 
+               <strong>Real-time data from NOAA Space Weather Prediction Center</strong> | 
+               <a href="https://github.com/aurora-project" target="_blank">View on GitHub</a> | 
+               <a href="#" id="aboutLink">About</a></p>
+        </footer>
+    </div>
+
+    <!-- Connection Status -->
+    <div class="connection-status" id="connectionStatus">
+        <div class="connection-dot" id="connectionDot"></div>
+        <span id="connectionText">Connecting to NOAA...</span>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <span class="close" id="closeSettings">&times;</span>
+            <h2>⚙️ Real-time Dashboard Settings</h2>
+            <div class="setting-group">
+                <label>Data Source:</label>
+                <select id="dataSourceSelect">
+                    <option value="auto" selected>Auto (NOAA + Fallback)</option>
+                    <option value="noaa">NOAA Only</option>
+                    <option value="fallback">Simulated Only</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label>Update Interval:</label>
+                <select id="updateInterval">
+                    <option value="5">5 minutes</option>
+                    <option value="15" selected>15 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="60">1 hour</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label>Theme:</label>
+                <select id="themeSelect">
+                    <option value="dark" selected>Dark (Aurora Night)</option>
+                    <option value="light">Light (Arctic Day)</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label>Notifications:</label>
+                <select id="notificationSelect">
+                    <option value="none" selected>None</option>
+                    <option value="high">High Activity Only</option>
+                    <option value="all">All Updates</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" id="saveSettings">Save Settings</button>
+        </div>
+    </div>
+
+    <!-- Loading styles -->
+    <style>
+        .loading-message {
+            color: var(--text-secondary);
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .loading-message::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+    </style>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="script-real.js"></script>
+    
+    <script>
+        // Enhanced initialization for real-time features
+        document.addEventListener('DOMContentLoaded', () => {
+            // Update connection status
+            function updateConnectionStatus(isConnected, source) {
+                const dot = document.getElementById('connectionDot');
+                const text = document.getElementById('connectionText');
+                
+                if (isConnected) {
+                    dot.classList.remove('offline');
+                    text.textContent = `Connected to ${source}`;
+                } else {
+                    dot.classList.add('offline');
+                    text.textContent = 'Connection lost - using fallback';
+                }
+            }
+            
+            // Monitor connection status
+            setInterval(() => {
+                fetch('/api/health')
+                    .then(response => response.json())
+                    .then(data => {
+                        updateConnectionStatus(data.status === 'healthy', 'NOAA');
+                    })
+                    .catch(() => {
+                        updateConnectionStatus(false, 'Fallback');
+                    });
+            }, 30000); // Check every 30 seconds
+            
+            // Add keyboard shortcuts info
+            console.log('🌌 Real-time Aurora Dashboard');
+            console.log('Keyboard shortcuts:');
+            console.log('  R - Refresh data');
+            console.log('  A - Aurora animation');
+            console.log('  ESC - Close modals');
+            
+            // ESC key to close modals
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    document.getElementById('settingsModal').style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
