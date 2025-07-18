@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Borealis Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="aurora-animation">
+                <div class="aurora-wave wave1"></div>
+                <div class="aurora-wave wave2"></div>
+                <div class="aurora-wave wave3"></div>
+            </div>
+            <h1>🌌 Aurora Borealis Dashboard</h1>
+            <p class="subtitle">Real-time aurora tracking and forecasting</p>
+        </header>
+
+        <main class="main-content">
+            <div class="grid">
+                <!-- Current Conditions -->
+                <div class="card current-conditions">
+                    <h2>🔮 Current Conditions</h2>
+                    <div class="kp-display">
+                        <div class="kp-value" id="currentKp">--</div>
+                        <div class="kp-label">KP Index</div>
+                    </div>
+                    <div class="activity-level" id="activityLevel">Loading...</div>
+                    <div class="visibility-zone" id="visibilityZone">Calculating...</div>
+                    <div class="last-updated" id="lastUpdated">Last updated: --</div>
+                </div>
+
+                <!-- 7-Day Forecast -->
+                <div class="card forecast">
+                    <h2>📊 7-Day Forecast</h2>
+                    <div class="forecast-list" id="forecastList">
+                        <!-- Forecast items will be generated here -->
+                    </div>
+                </div>
+
+                <!-- Viewing Probabilities -->
+                <div class="card probabilities">
+                    <h2>📍 Viewing Probabilities</h2>
+                    <div class="location-list" id="locationList">
+                        <!-- Location probabilities will be generated here -->
+                    </div>
+                </div>
+
+                <!-- Expected Colors -->
+                <div class="card colors">
+                    <h2>🎨 Expected Colors</h2>
+                    <div class="color-list" id="colorList">
+                        <!-- Color predictions will be generated here -->
+                    </div>
+                </div>
+
+                <!-- Photography Tips -->
+                <div class="card tips">
+                    <h2>📸 Photography Tips</h2>
+                    <div class="tips-list" id="tipsList">
+                        <div class="tip">🌍 Find a location away from city lights</div>
+                        <div class="tip">🕐 Best viewing: 10 PM - 2 AM local time</div>
+                        <div class="tip">🌙 New moon periods offer darkest skies</div>
+                        <div class="tip">📱 Use aurora prediction apps for real-time updates</div>
+                    </div>
+                </div>
+
+                <!-- Aurora Fact -->
+                <div class="card fact">
+                    <h2>💡 Aurora Fact</h2>
+                    <div class="fact-content" id="factContent">
+                        Loading fascinating aurora facts...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <button class="btn btn-primary" id="refreshBtn">🔄 Refresh Data</button>
+                <button class="btn btn-secondary" id="exportBtn">📊 Export Report</button>
+                <button class="btn btn-secondary" id="settingsBtn">⚙️ Settings</button>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Built with ❤️ for aurora enthusiasts | 
+               <a href="https://github.com/aurora-project" target="_blank">View on GitHub</a> | 
+               <a href="#" id="aboutLink">About</a></p>
+        </footer>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <span class="close" id="closeSettings">&times;</span>
+            <h2>⚙️ Dashboard Settings</h2>
+            <div class="setting-group">
+                <label>Preferred Units:</label>
+                <select id="unitsSelect">
+                    <option value="metric">Metric (°C, km)</option>
+                    <option value="imperial">Imperial (°F, miles)</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label>Update Interval:</label>
+                <select id="updateInterval">
+                    <option value="5">5 minutes</option>
+                    <option value="15" selected>15 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="60">1 hour</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label>Theme:</label>
+                <select id="themeSelect">
+                    <option value="dark" selected>Dark (Aurora Night)</option>
+                    <option value="light">Light (Arctic Day)</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" id="saveSettings">Save Settings</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
